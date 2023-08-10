@@ -6,6 +6,7 @@
     <title>학생정보</title>
 </head>
 <body>
+
     <h1>학생 정보</h1>
     <select id="size" >
         <option value="2">2</option>
@@ -30,6 +31,7 @@
         
     </div>
     <script>
+
         let page = 1
         let size = 4
         const students = {}
@@ -59,6 +61,42 @@
                 btns.appendChild(btn)
             }
         }
+
+        const queryString = window.location.search;
+        const params = new URLSearchParams(queryString);
+        const id = params.get('id')
+        const name = params.get('name')
+        
+        if(!name){
+            location.href = 'login.html'
+        }
+       
+        const updateImageForStudent = async () => {
+        const image = "https://image.mediapen.com/news/202103/news_605667_1614652226_m.jpg";
+    
+    
+         const response = await fetch(`http://192.168.0.184:8080/api/v1/member`, {
+        method: 'PUT', 
+
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        
+        body: JSON.stringify({
+            id,
+            image
+        }), 
+
+        });
+
+    
+        const updatedStudents = await getData(page);
+        makeBody(updatedStudents.content);
+        };  
+
+        updateImageForStudent();
+
+
         const changePage = async (i)=>{
             const students =  await getData(i)
             makeBody(students.content)

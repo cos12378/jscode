@@ -5,8 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 <body>
-    <input>
-    <button>로그인</button>
+    <input id="name" name="name" placeholder="id">
+    <button onclick="login()">로그인</button>
 </body>
+
+<script>
+    
+    const login = async () => {
+        const loginName = document.getElementById("name").value;
+        const response = await fetch(`http://192.168.0.184:8080/api/v1/member`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: loginName
+                }), 
+            });
+    const body = await response.json();
+    
+    if(response.ok){
+        localStorage.setItem("name",body.name)
+        location.href = 'student.html'
+    }
+    }
+</script>
+</html>
+
 </html>
